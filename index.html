@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vicca Job</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">💼 Vicca Job</div>
+  <select id="lang">
+    <option value="fr">Français</option>
+    <option value="en">English</option>
+    <option value="ki">Kirundi</option>
+    <option value="sw">Swahili</option>
+    <option value="ar">العربية</option>
+  </select>
+  <div id="authButtons">
+    <button onclick="login()">Login</button>
+    <button onclick="register()">Register</button>
+  </div>
+</header>
+
+<nav>
+  <button onclick="showAccueil()">Accueil</button>
+  <button onclick="showSaba()">Saba Akazi</button>
+  <button onclick="showTanga()">Tanga Akazi</button>
+  <button onclick="showJobs()">Akazi Gahari</button>
+  <button onclick="showChat()">Chat</button>
+</nav>
+
+<div id="notification" class="notification"></div>
+<main id="app"></main>
+
+<script src="script.js"></script>
+</body>
+</html>
