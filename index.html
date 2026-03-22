@@ -4,36 +4,115 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vicca Job</title>
+<link rel="icon" href="icon.png" type="image/png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00acc1">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <div class="logo">💼 Vicca Job</div>
-  <select id="lang">
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="logo">
+    <div class="app-icon">&#128269;</div>
+    <span class="app-title" data-i18n="navbar.title">Vicca Job</span>
+  </div>
+
+  <input type="text" id="postSearch" placeholder="Search..." data-i18n="navbar.search">
+
+  <select id="langSelector">
     <option value="fr">Français</option>
     <option value="en">English</option>
-    <option value="ki">Kirundi</option>
     <option value="sw">Swahili</option>
+    <option value="rn">Kirundi</option>
     <option value="ar">العربية</option>
   </select>
-  <div id="authButtons">
-    <button onclick="login()">Login</button>
-    <button onclick="register()">Register</button>
-  </div>
-</header>
 
-<nav>
-  <button onclick="showAccueil()">Accueil</button>
-  <button onclick="showSaba()">Saba Akazi</button>
-  <button onclick="showTanga()">Tanga Akazi</button>
-  <button onclick="showJobs()">Akazi Gahari</button>
-  <button onclick="showChat()">Chat</button>
+  <div class="auth-buttons">
+    <button id="loginBtn" data-i18n="navbar.login">Login</button>
+    <button id="logoutBtn" data-i18n="navbar.logout">Logout</button>
+  </div>
 </nav>
 
-<div id="notification" class="notification"></div>
-<main id="app"></main>
+<section id="main-content">
+  <div class="tabs">
+    <button class="tab-btn" data-target="accueil" data-i18n="tabs.accueil">Accueil</button>
+    <button class="tab-btn" data-target="demande" data-i18n="tabs.demande">Demande d'emploi</button>
+    <button class="tab-btn" data-target="donner" data-i18n="tabs.donner">Donner l'emploi</button>
+    <button class="tab-btn" data-target="emploi-dispo" data-i18n="tabs.emploi">Amploi dispo</button>
+    <button class="tab-btn" data-target="messages" data-i18n="tabs.messages">Messages</button>
+    <button class="tab-btn" data-target="contact" data-i18n="tabs.contact">Contact</button>
+  </div>
+
+  <!-- Accueil -->
+  <div class="tab-content" id="accueil">
+    <h3 data-i18n="tabs.accueil">Accueil</h3>
+    <div id="postsList"></div>
+  </div>
+
+  <!-- Demande / Saba Akazi -->
+  <div class="tab-content" id="demande">
+    <h3 data-i18n="tabs.demande">Demande d'emploi</h3>
+    <form id="sabaForm">
+      <input type="text" name="name" placeholder="Nom" data-i18n="sabaForm.name" required>
+      <input type="text" name="country" placeholder="Pays" data-i18n="sabaForm.country" required>
+      <input type="text" name="city" placeholder="Ville" data-i18n="sabaForm.city" required>
+      <input type="tel" name="phone" placeholder="Numero Tel" data-i18n="sabaForm.phone" required>
+      <input type="email" name="email" placeholder="Email" data-i18n="sabaForm.email" required>
+      <input type="file" name="photo" accept="image/*" data-i18n="sabaForm.photo">
+      <input type="file" name="video" accept="video/*" data-i18n="sabaForm.video">
+      <input type="file" name="pdf" accept="application/pdf" data-i18n="sabaForm.pdf">
+      <button type="submit" data-i18n="sabaForm.submit">Envoyer</button>
+    </form>
+  </div>
+
+  <!-- Donner / Tanga Akazi -->
+  <div class="tab-content" id="donner">
+    <h3 data-i18n="tabs.donner">Donner l'emploi</h3>
+    <form id="tangaForm">
+      <input type="text" name="company" placeholder="Nom d'entreprise" data-i18n="tangaForm.company" required>
+      <input type="text" name="country" placeholder="Pays" data-i18n="tangaForm.country" required>
+      <input type="text" name="city" placeholder="Ville" data-i18n="tangaForm.city" required>
+      <input type="tel" name="phone" placeholder="Numero Tel" data-i18n="tangaForm.phone" required>
+      <input type="email" name="email" placeholder="Email" data-i18n="tangaForm.email" required>
+      <input type="file" name="photo" accept="image/*" data-i18n="tangaForm.photo">
+      <input type="file" name="video" accept="video/*" data-i18n="tangaForm.video">
+      <input type="file" name="pdf" accept="application/pdf" data-i18n="tangaForm.pdf">
+      <button type="submit" data-i18n="tangaForm.submit">Envoyer</button>
+    </form>
+  </div>
+
+  <!-- Amploi dispo -->
+  <div class="tab-content" id="emploi-dispo">
+    <h3 data-i18n="tabs.emploi">Amploi dispo</h3>
+    <div id="jobsList"></div>
+  </div>
+
+  <!-- Messages -->
+  <div class="tab-content" id="messages">
+    <h3 data-i18n="tabs.messages">Messages</h3>
+    <div class="chat-window">
+      <div class="messages-list"></div>
+      <input type="text" id="chatInput" placeholder="Écrire un message..." data-i18n="chat.input">
+      <input type="file" id="chatFile" accept="image/*,video/*,application/pdf">
+      <button id="sendMsg" data-i18n="chat.send">Envoyer</button>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="tab-content" id="contact">
+    <h3 data-i18n="tabs.contact">Contact</h3>
+    <div id="contactList"></div>
+  </div>
+</section>
 
 <script src="script.js"></script>
+<script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('service-worker.js')
+  .then(()=>console.log("Service Worker registered"))
+  .catch(err=>console.log("Service Worker failed:", err));
+}
+</script>
 </body>
 </html>

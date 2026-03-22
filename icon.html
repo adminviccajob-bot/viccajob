@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Vicca Job Icon Generator</title>
+</head>
+<body>
+<h2>Vicca Job Icon Generator</h2>
+<canvas id="iconCanvas" width="512" height="512"></canvas>
+<br>
+<button id="downloadBtn">Download PNG</button>
+
+<script>
+const canvas = document.getElementById('iconCanvas');
+const ctx = canvas.getContext('2d');
+
+// Background
+ctx.fillStyle = "#00acc1";
+ctx.fillRect(0, 0, 512, 512);
+
+// Circle highlight
+ctx.fillStyle = "#ffffff";
+ctx.beginPath();
+ctx.arc(256, 256, 180, 0, 2 * Math.PI);
+ctx.fill();
+
+// Text "VJ"
+ctx.fillStyle = "#ffffff";
+ctx.font = "bold 180px Arial";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+ctx.fillText("VJ", 256, 256);
+
+// Optional: Simple magnifying glass (top-right)
+ctx.strokeStyle = "#ffffff";
+ctx.lineWidth = 8;
+ctx.beginPath();
+ctx.arc(380, 140, 40, 0, 2 * Math.PI);
+ctx.moveTo(410, 170);
+ctx.lineTo(450, 210);
+ctx.stroke();
+
+// Download PNG
+document.getElementById('downloadBtn').onclick = () => {
+  const link = document.createElement('a');
+  link.download = "viccajob_icon.png";
+  link.href = canvas.toDataURL();
+  link.click();
+};
+</script>
+</body>
+</html>
